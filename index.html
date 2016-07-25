@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>random quote</title>
+   <link rel="stylesheet" href="main.css">
+    <!-- endbuild -->
+  </head>
+  <body>
+  <div class="quote-container">
+    <div class="quote">
+      <div class="quote-title">
+        <h1>Random Quote Generator</h1>
+      </div>
+      <div class="quote-content">
+        <p id="quoteText">Get Quote Random!</p>
+        <span id="author">YOU SAY</span>
+      </div>
+      <div class="quote-content__getQuote">
+        <button class="btn btn-primary" id="getQuote">Quote</button>
+      </div>
+    </div>
+  </div>
+ <!--load jQuery with cdn-->
+  <script src="../../../js/vendor/jquery-1.11.3.min.js"></script>
+  <!--ajax script-->
+  <script>
+    //use jQuery $.ajax to get the json
+    $(function() {
+      //document ready
+
+      $("#getQuote").on("click", function(e) {
+        //add events listener to the button with id:getQuote
+        var text = document.getElementById("quoteText"),
+              author = document.getElementById("author");
+
+        //send request with jQuery
+        $.ajax({
+        type: "GET",
+        url: "http://api.forismatic.com/api/1.0/",
+        dataType: "jsonp",
+        jsonp: "jsonp",
+        //set data as query string
+        data: {
+          format: "jsonp",
+          lang: "en",
+          method: "getQuote"
+        },
+        timeout: 2000,
+        success:function(data) {
+
+          text.textContent = data.quoteText;
+          author.textContent = data.quoteAuthor;
+          $(".quote-content").fadeIn("slow");
+
+
+        },
+        fail: function() {
+          console.log("ERRORS");
+        }
+      });
+        //异步数据请求结束
+
+      });
+      //点击button事件结束
+    });
+
+  </script>
+    <!-- endbuild -->
+  </body>
+</html>
